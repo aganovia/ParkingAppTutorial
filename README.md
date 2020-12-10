@@ -20,7 +20,7 @@ We created a simple Parking app that is intended to show users their current loc
 
 The final application will look like this:
 
-![Image](https://imgur.com/zYNCY2d)  ![Image](https://imgur.com/0KSkPlx)
+![Image](https://i.imgur.com/zYNCY2d.png)  ![Image](https://i.imgur.com/0KSkPlx.png)
 
 # Getting Started
 
