@@ -24,6 +24,42 @@ The final application will look like this:
 
 # Getting Started
 
+You will need Android Studio for this demonstration. The app will be written in Kotlin, and will support API version 19 (KitKat) and later. (include screenshot)
+
+You will also need to add the following dependencies to your project's build.gradle:
+
+```
+implementation 'com.google.android.gms:play-services-location:17.0.0'
+implementation 'com.google.android.libraries.places:places:2.4.0'
+```
+
+The first dependency is Google Play Location Services. This is what allows us to create a Fused Location Provider Client, which is how we retrieve the device's last known location and latitude/longitude coordinates.
+
+The second dependency comes from the Google Places API. This provides our app with backend geographic data that makes it possible to convert our coordinates into an address. This will be done through Android's Geocoder class. Without this dependency, the Geocoder would not function.
+
+Also make sure that Google is included in your project's repositories (also in the build.gradle) if it isn't already:
+
+```
+ext.kotlin_version = "1.3.72"
+    repositories {
+        google()
+        ...
+    }
+```
+
+Don't forget to sync your gradle files in your project before testing your app.
+
+Finally, in your project's manifest, make sure to include these permissions:
+
+```
+<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+```
+
+These are what allow our app to access location data. It will need an internet connection and access to the device's location.
+
 # Instructions
 
 # Conclusions
