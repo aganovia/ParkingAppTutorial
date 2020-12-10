@@ -1,4 +1,5 @@
-# Overview
+# Parking App Tutorial
+## Overview
 
 Our group researched [Location and Context APIs](https://developers.google.com/location-context/) on Android. In order to develop proficiency in this area, we focused specifically on the location aspect of it, since it offers the most functionality and is the most commonly implemented in applications.
 
@@ -10,7 +11,7 @@ The final application will look like this:
 
 The app makes use of Android's Navigation Component and Recycler View.
 
-# Getting Started
+## Getting Started
 
 You will need Android Studio for this demonstration. The app will be written in Kotlin, and the minimum SDK will be set to API 19: Android 4.4 (KitKat).
 
@@ -48,7 +49,7 @@ Finally, in your project's manifest, make sure to include these permissions:
 
 These are what allow our app to access location data. It will need an internet connection and access to the device's location.
 
-# Instructions
+## Instructions
 
 1) Because our app uses Android's Navigation component, we will be writing our location code in a fragment called MainFragment. The same code will work in an Activity with minor changes (for instance, areas that say "this.context" or "this.context as Activity" should be converted to "this").
 
@@ -239,7 +240,7 @@ There are a number of ways to implement Google Maps Intents for Android. You can
 
 9) You're done! Now you're able to obtain a device's last known location and reverse geocode its coordinates into an address. Implement Android's Navigation Component and Recycler View to fully flesh out the application.
 
-# Conclusion
+## Conclusion
 
 This tutorial covers a common use case for our focus area, which is location retrieval. There are myriad other use cases and implementations which can be explored on the Google developer page for [Location and Context APIs](https://developers.google.com/location-context/). Another interesting area for further study is [Geofencing](https://developers.google.com/location-context/geofencing), which deals with defined parameters (_geofences_) surrounding areas of interest. You can also read more on what the [Places API](https://cloud.google.com/maps-platform/places/) has to offer apart from Geocoding support. It is often used in conjunction with Google Maps.
 
