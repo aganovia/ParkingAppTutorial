@@ -245,6 +245,11 @@ This tutorial covers a common use case for our focus area, which is location ret
 
 An alternative to the Play Services' Fused Location Provider is Android's Location API, which instead uses [LocationManager](https://developer.android.com/reference/android/location/LocationManager). This provides the same functionality with slightly different implementation. Google's Location Services provides better battery performance and higher accuracy. You can read more about the differences between these services and their implementations [here](https://stackoverflow.com/questions/33022662/android-locationmanager-vs-google-play-services).
 
+When testing these features in an emulator, make sure to set the location of the emulator before running your app. This image shows how to do that:
+
+![Image](https://i.imgur.com/QCTyUB9.png)
+
+
 [Here](https://github.com/TrevorSpitzley/CIS357_FinalProject/tree/main) is the Github repository for our full app.
 
 
