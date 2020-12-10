@@ -1,20 +1,9 @@
-## Welcome to GitHub Pages
+## Location and Context APIs Tutorial
 
-You can use the [editor on GitHub](https://github.com/aganovia/ParkingAppTutorial/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
+Sample link: [editor on GitHub](https://github.com/aganovia/ParkingAppTutorial/edit/main/README.md)'
+# Header 1 ## Header 2 ### Header 3
+``` highlighted code block```
+[Link](url) and ![Image](src)
 - Bulleted
 - List
 
@@ -23,15 +12,19 @@ Syntax highlighted code block
 
 **Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
+# Overview
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Our group researched [Location and Context APIs](https://developers.google.com/location-context/) on Android. In order to develop proficiency in this area, we focused specifically on the location aspect of it, since it offers the most functionality and is the most commonly implemented in applications.
 
-### Jekyll Themes
+We created a simple Parking app that is intended to show users their current location, allow them to save the location, and send the location to Google Maps, or copy it to their clipboard. Having your parking spot saved in your phone can make life a lot easier!
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/aganovia/ParkingAppTutorial/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+The final application will look like this:
 
-### Support or Contact
+![Image](https://imgur.com/zYNCY2d)  ![Image](https://imgur.com/0KSkPlx)
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+# Getting Started
+
+# Instructions
+
+# Conclusions
+
