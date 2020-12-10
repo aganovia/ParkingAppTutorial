@@ -1,16 +1,4 @@
-## Location and Context APIs Tutorial
-
-Sample link: [editor on GitHub](https://github.com/aganovia/ParkingAppTutorial/edit/main/README.md)'
-# Header 1 ## Header 2 ### Header 3
-``` highlighted code block```
-[Link](url) and ![Image](src)
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
+# Location and Context APIs Tutorial
 
 # Overview
 
@@ -64,7 +52,7 @@ These are what allow our app to access location data. It will need an internet c
 
 # Instructions
 
-1. Because our app uses Android's Navigation component, we will be writing our location code in a fragment called MainFragment. The same code will work in an Activity with minor changes (for instance, areas that say "this.context" or "this.context as Activity" should be converted to "this").
+1) Because our app uses Android's Navigation component, we will be writing our location code in a fragment called MainFragment. The same code will work in an Activity with minor changes (for instance, areas that say "this.context" or "this.context as Activity" should be converted to "this").
 
 The onCreateView function will look like so:
 
@@ -79,7 +67,7 @@ override fun onCreateView(
     }
 ```
 
-2. Next, create the following global variables at the top of your MainFragment:
+2) Next, create the following global variables at the top of your MainFragment:
 
 ```
 val RequestPermissionCode = 1
@@ -94,25 +82,26 @@ var featureName = ""
 var state = ""
 var addressLine = ""
 ```
+
 Most of these are self explanatory as to the values they will hold. RequestPermissionCode, mLocation, fusedLocationProviderClient, and mLocationRequest will all be involved in the process of retrieving the device's last known location, and asking for location updates from the device. We will see how they are implemented in future steps.
 
-3. The onViewCreated function will be where we do the majority of the work. In this function, start by instantiating the fusedLocationProviderClient, and import as necessary: 
+3) The onViewCreated function will be where we do the majority of the work. In this function, start by instantiating the fusedLocationProviderClient, and import as necessary: 
 
 ```
 fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.context as Activity)
 ```
 
-4. Directly underneath that, set up location requests with the following code:
-```
-// location requests
-        mLocationRequest = LocationRequest.create()
-        mLocationRequest.interval = 1000
-        mLocationRequest.fastestInterval = 1000
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        var mLocationCallback = LocationCallback()
-        
+4) Directly underneath that, set up location requests with the following code:
 
 ```
+// location requests
+mLocationRequest = LocationRequest.create()
+mLocationRequest.interval = 1000
+mLocationRequest.fastestInterval = 1000
+mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+var mLocationCallback = LocationCallback()
+```
+
 The reason we implement location requests is so that our app is aware when the device's location changes. Without this, we would be able to retrieve the device's last known location, but once it changes, it would not have the most accurate updated location available to it. You can read more about Android location requests [here] (https://developers.google.com/android/reference/com/google/android/gms/location/LocationRequest).
 
 In our example, we set the interval at which location requests are made to 1 second. This is for the purposes of demonstrating our app in real time; realistically, an application may set it to 5+ seconds depending on how often they believe the user's location will change. 
@@ -123,7 +112,7 @@ We set the priority of our requests to high accuracy because we want the most ac
 
 A location callback is created to be used in conjunction with our request for location updates, which will be shown in following steps.
 
-5. We would like our app to request location permissions once it starts, if those permissions aren't already granted.  This code will be fairly straight-forward. Directly underneath the previous code you added, add this block:
+5) We would like our app to request location permissions once it starts, if those permissions aren't already granted.  This code will be fairly straight-forward. Directly underneath the previous code you added, add this block:
 
 ```
 // permissions check required before location updates can be requested
@@ -151,7 +140,7 @@ private fun requestPermission() {
 
 Permissions must be requested in order for the app to function. It is also reassuring to users to explicitly asked for location permissions before retrieving their data.
 
-6. Next, we will implement a function that retrieves the device's last known location:
+6) Next, we will implement a function that retrieves the device's last known location:
 
 ```
 fun getLastLocation(latvalue: TextView, longvalue: TextView, addvalue: TextView, addextravalue: TextView, mLocationCallback: LocationCallback) {
@@ -195,6 +184,7 @@ The first part of the function checks again to make sure that permissions are gr
 This is where our fusedLocationProviderClient comes in. First, we request location updates using our location request and callback to ensure that we have access to the most accurate location information available to us. Next, we check to make sure that the location we're retrieving is not null. If not, we retrieve its latitude, longitude, the time at which it was retrieved, and the date on which it was retrieved and store this in our global variables. Next, we simply set the text of our TextViews that we passed in so this location data is communicated to the user's screen.
 
 We will use this getLastLocation() function each time our "Update Location" button is pressed. Add this click listener to your onViewCreated() code, and pass the text views that display latitude, longitude, the first address line, and the second address line, as well as our location callback:
+
 ```
 updateButton.setOnClickListener { v ->
             getLastLocation(latvalue, longvalue, addvalue, addextravalue, mLocationCallback)
@@ -203,7 +193,8 @@ updateButton.setOnClickListener { v ->
 
 You will notice that we don't have a getAddress function yet. We will add that in the next step.
 
-7. Add the code for the getAddress function:
+7) Add the code for the getAddress function:
+
 ```
 private fun getAddress(lat: Double, long: Double) {
         // reverse geocode coordinates into an address
@@ -226,7 +217,7 @@ There are a number of properties that can be accessed for this address. We used 
 
 As mentioned previously, this geocoder code will _not work_ without some kind of backend, as mentioned in [its official documentation](https://developer.android.com/reference/android/location/Geocoder). This is why we added Places to our dependencies in the Getting Started section. We cannot reverse geocode our coordinates if there is no location data to reverse geocode them into.
 
-8. That is it for the core functionality of the app. For some extra functionality, let's give the user the option to send their location to the Google Maps app by pressing the "Open In Maps" button. Add this click listener to your onViewCreated():
+8) That is it for the core functionality of the app. For some extra functionality, let's give the user the option to send their location to the Google Maps app by pressing the "Open In Maps" button. Add this click listener to your onViewCreated():
 
 ```
 openButton.setOnClickListener{ v ->
@@ -248,7 +239,7 @@ Once we have a location to work with, we create an Intent that loads a map of th
 
 There are a number of ways to implement Google Maps Intents for Android. You can read more about the process [here](https://developers.google.com/maps/documentation/urls/android-intents).
 
-9. You're done! Now you're able to obtain a device's last known location and reverse geocode its coordinates into an address. Implement Android's Navigation Component and Recycler View to fully flesh out the application.
+9) You're done! Now you're able to obtain a device's last known location and reverse geocode its coordinates into an address. Implement Android's Navigation Component and Recycler View to fully flesh out the application.
 
 # Conclusion
 
