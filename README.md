@@ -1,5 +1,3 @@
-# Location and Context APIs Tutorial
-
 # Overview
 
 Our group researched [Location and Context APIs](https://developers.google.com/location-context/) on Android. In order to develop proficiency in this area, we focused specifically on the location aspect of it, since it offers the most functionality and is the most commonly implemented in applications.
