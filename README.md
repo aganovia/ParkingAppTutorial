@@ -9,7 +9,15 @@ The final application will look like this:
 
 ![Image](https://i.imgur.com/zYNCY2d.png)  ![Image](https://i.imgur.com/Ion8Wya.png)
 
-The app makes use of Android's Navigation Component and Recycler View.
+The four Text Views showing the latitude, longitude, the first address line, and the second address line on the main screen are set to empty strings by default. These values are updated when the "Update Location" button is pressed. 
+
+"Save Location" saves the last updated location as an entry on the History screen.
+
+"Copy Location" copies the last updated latitude and longitude into the device's clipboard as a string of the format "$latitude, $longitude". 
+
+The "Open In Maps" button opens the Google Maps app on the device with the last updated coordinates loaded into the search bar.
+
+The app also makes use of Android's Navigation Component and Recycler View.
 
 ## Getting Started
 
@@ -101,11 +109,11 @@ mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 var mLocationCallback = LocationCallback()
 ```
 
-The reason we implement location requests is so that our app is aware when the device's location changes. Without this, we would be able to retrieve the device's last known location, but once it changes, it would not have the most accurate updated location available to it. You can read more about Android location requests [here] (https://developers.google.com/android/reference/com/google/android/gms/location/LocationRequest).
+The reason we implement location requests is so that our app is aware when the device's location changes. Without this, we would be able to retrieve the device's last known location, but once it changes, the most accurate updated location would not be available to us. You can read more about Android location requests [here](https://developers.google.com/android/reference/com/google/android/gms/location/LocationRequest).
 
-In our example, we set the interval at which location requests are made to 1 second. This is for the purposes of demonstrating our app in real time; realistically, an application may set it to 5+ seconds depending on how often they believe the user's location will change. 
+In our example, we set the interval at which location requests are made to 1 second. This is for the purposes of demonstrating our app in real time; realistically, an application may set it to a longer interval depending on how often they believe the user's location will change. 
 
-The fastest interval line isn't required for our purposes, but in a real app, this would set the interval for updating location based on other apps. For instance, if the device's location can be retrieved more quickly from a different application, it will do so with this interval.
+The fastest interval line isn't required for our purposes, but in a real app, this would set the interval for updating location based on other apps on the device. For instance, if the device's location can be retrieved more quickly from a different application, it will do so with this interval. You can read more about this distinction [here](https://stackoverflow.com/questions/26114345/difference-between-locationrequest-setinterval-long-millis-and-locationrequest).
 
 We set the priority of our requests to high accuracy because we want the most accurate location data available, and for our app to work in real-time. Other options include PRIORITY_NO_POWER (best accuracy possible with no additional power consumption), PRIORITY_LOW_POWER (to request "city" level accuracy), and PRIORITY_BALANCED_POWER_ACCURACY (to request "block" level accuracy).
 
@@ -137,7 +145,7 @@ private fun requestPermission() {
     }
 ```
 
-Permissions must be requested in order for the app to function. It is also reassuring to users to explicitly asked for location permissions before retrieving their data.
+Permissions must be requested in order for the app to function. It is also reassuring to users to explicitly ask for location permissions before retrieving their data.
 
 6) Next, we will implement a function that retrieves the device's last known location:
 
@@ -180,7 +188,7 @@ fun getLastLocation(latvalue: TextView, longvalue: TextView, addvalue: TextView,
 
 The first part of the function checks again to make sure that permissions are granted. Although we already added one permissions check, you will notice that if you get rid of that "if" check, Android Studio will notify you that what you're trying to do with the fusedLocationProviderClient requires location permissions from the user, and will strongly suggest that you add it. Although it may not be entirely necessary, it's a good safety precaution to have in place with most location-related operations.
 
-This is where our fusedLocationProviderClient comes in. First, we request location updates using our location request and callback to ensure that we have access to the most accurate location information available to us. Next, we check to make sure that the location we're retrieving is not null. If not, we retrieve its latitude, longitude, the time at which it was retrieved, and the date on which it was retrieved and store this in our global variables. Next, we simply set the text of our TextViews that we passed in so this location data is communicated to the user's screen.
+This is where our fusedLocationProviderClient comes in. First, we request location updates using our location request and callback to ensure that we have access to the most accurate location information available to us. Next, we check to make sure that the location we're retrieving is not null. If not, we retrieve its latitude, longitude, the time at which it was retrieved, and the date on which it was retrieved and store the data in our global variables. Next, we simply set the text of our TextViews that we passed in so this location data is communicated to the user's screen.
 
 We will use this getLastLocation() function each time our "Update Location" button is pressed. Add this click listener to your onViewCreated() code, and pass the text views that display latitude, longitude, the first address line, and the second address line, as well as our location callback:
 
@@ -212,11 +220,11 @@ We create an instance of the [Geocoder](https://developer.android.com/reference/
 
 We pass this function our latitude and longitude coordinates and call Geocoder's getFromLocation() function. You will notice that "address" is an array. The "3" parameter determines the maximum number of results that will be allowed into our array. This is because there may be several ways to express the location at a specific latitude and longitude. We arbitrarily set our maxResults to 3, but we only use the first result (address[0]). You can see that we chose to extract the location's admin area, address line, and feature name (which is only distinct from the address for certain locations -- you will notice that in our Berlin example screenshot, feature name is "Mitte", which means "Middle", or City Center).
 
-There are a number of properties that can be accessed for this address. We used adminArea, addressLine, and featureName. Others we could have used are countryCode, countryName, locality, phone, and postalCode. Feel free to experiment with these and see which values you get.
+There are a number of properties that can be accessed for this address. We used adminArea, addressLine, and featureName. Others we could have used are countryCode, countryName, locality, phone, and postalCode. Feel free to experiment with these properties and see which values you get for different locations.
 
-As mentioned previously, this geocoder code will _not work_ without some kind of backend, as mentioned in [its official documentation](https://developer.android.com/reference/android/location/Geocoder). This is why we added Places to our dependencies in the Getting Started section. We cannot reverse geocode our coordinates if there is no location data to reverse geocode them into.
+This Geocoder code will _not work_ without some kind of backend, as mentioned previously and in [its official documentation](https://developer.android.com/reference/android/location/Geocoder). This is why we added Places to our dependencies in the Getting Started section. We cannot reverse geocode our coordinates if there is no location data to reverse geocode them into.
 
-8) That is it for the core functionality of the app. For some extra functionality, let's give the user the option to send their location to the Google Maps app by pressing the "Open In Maps" button. Add this click listener to your onViewCreated():
+8) That is it for the core functionality of the app. For some extra functionality, let's give the user the option to send their location to the Google Maps app by pressing the "Open In Maps" button. Add this on click listener to your "Open In Maps" button in onViewCreated():
 
 ```
 openButton.setOnClickListener{ v ->
@@ -232,25 +240,25 @@ openButton.setOnClickListener{ v ->
         }
 ```
 
-First we check to see if the latitude and longitude coordinates haven't changed from their default 0.0 values (realistically it would be possible for someone to be at latitude 0.0 and longitude 0.0, but that is highly unlikely). If they are still their default values, we update the screen to let the user know to tap "Update Location" first so their location can be retrieved. 
+First we check to see if the latitude and longitude coordinates haven't changed from their default 0.0 values (it would be possible for someone to be at latitude 0.0 and longitude 0.0, but that is highly unlikely and unrealistic). If they are still their default values, we update the screen to let the user know to tap "Update Location" first so their location can be retrieved. 
 
-Once we have a location to work with, we create an Intent that loads a map of the location, and call startActivity() on that intent. Note the part where we send our specific $latitude and $longitude values. Once pressing the "Open In Maps" button, the Google Maps app will open on the user's device with their location coordinates already loaded. 
+Once we have a location to work with, we create an Intent that loads a map of the location, and call startActivity() on that intent. Note the part where we send our specific $latitude and $longitude values. Upon pressing the "Open In Maps" button, the Google Maps app will open on the user's device with their location coordinates already loaded. 
 
 There are a number of ways to implement Google Maps Intents for Android. You can read more about the process [here](https://developers.google.com/maps/documentation/urls/android-intents).
 
-9) You're done! Now you're able to obtain a device's last known location and reverse geocode its coordinates into an address. Implement Android's Navigation Component and Recycler View to fully flesh out the application.
+9) You're done! Now you're able to obtain a device's last known location and reverse geocode its coordinates into an address. To fully flesh out the application, implement the "copy location" button to copy the latitude and longitude to the device's clipboard, and implement Android's Navigation Component and Recycler View in order to save and display locations on a History screen.
 
-## Conclusion
-
-This tutorial covers a common use case for our focus area, which is location retrieval. There are myriad other use cases and implementations which can be explored on the Google developer page for [Location and Context APIs](https://developers.google.com/location-context/). Another interesting area for further study is [Geofencing](https://developers.google.com/location-context/geofencing), which deals with defined parameters (_geofences_) surrounding areas of interest. You can also read more on what the [Places API](https://cloud.google.com/maps-platform/places/) has to offer apart from Geocoding support. It is often used in conjunction with Google Maps.
-
-An alternative to the Play Services' Fused Location Provider is Android's Location API, which instead uses [LocationManager](https://developer.android.com/reference/android/location/LocationManager). This provides the same functionality with slightly different implementation. Google's Location Services provides better battery performance and higher accuracy. You can read more about the differences between these services and their implementations [here](https://stackoverflow.com/questions/33022662/android-locationmanager-vs-google-play-services).
-
-When testing these features in an emulator, make sure to set the location of the emulator before running your app. This image shows how to do that:
+Before testing the "Update Location" button in an emulator, make sure to set the emulator's location first. This image shows how to do that:
 
 ![Image](https://i.imgur.com/QCTyUB9.png)
 
+## Conclusion and Further Discussion
 
-[Here](https://github.com/TrevorSpitzley/CIS357_FinalProject/tree/main) is the Github repository for our full app.
+This tutorial covers a common use case for our focus area, which is location retrieval. There are myriad other use cases and implementations which can be explored on the Google developer page for [Location and Context APIs](https://developers.google.com/location-context/). 
+
+Another interesting area for further study is [Geofencing](https://developers.google.com/location-context/geofencing), which deals with defined parameters (_geofences_) surrounding areas of interest. You can also read more on what the [Places API](https://cloud.google.com/maps-platform/places/) has to offer apart from Geocoding support. It is often used in conjunction with Google Maps.
+
+An alternative to the Play Services' Fused Location Provider is Android's Location API, which instead uses [LocationManager](https://developer.android.com/reference/android/location/LocationManager). This provides the same functionality with slightly different implementation. Google's Location Services provide better battery performance and higher accuracy. You can read more about the differences between these services and their implementations [here](https://stackoverflow.com/questions/33022662/android-locationmanager-vs-google-play-services).
 
 
+[Here](https://github.com/tristankingsley/cis357Project) is the Github repository for our full app. All of the tutorial code can be found in MainFragment.kt, which is located in cis357Project/app/src/main/java/edu/gvsu/cis/cis357project/MainFragment.kt.
